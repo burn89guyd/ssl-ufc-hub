@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ufc · 稳定入口与服务说明</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            background: #f2f4f6;
+            color: #2c3e4f;
+            line-height: 1.65;
+            padding: 2rem 1rem;
+        }
+
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* hero区 */
+        .hero {
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.03), 0 2px 6px rgba(0,0,0,0.02);
+            padding: 3.5rem 2.5rem;
+            margin-bottom: 2.8rem;
+            border: 1px solid #e6eaed;
+            transition: box-shadow 0.2s;
+        }
+
+        .hero:hover {
+            box-shadow: 0 8px 22px rgba(0,0,0,0.05);
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.6rem;
+            color: #1b2a36;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #4a5f6e;
+            max-width: 680px;
+            margin: 0.8rem 0 1rem 0;
+        }
+
+        .hero .tagline {
+            display: inline-block;
+            background: #eef1f4;
+            border-radius: 40px;
+            padding: 0.35rem 1.2rem;
+            font-size: 0.9rem;
+            color: #3a5265;
+            border: 1px solid #dce2e7;
+            margin-top: 0.2rem;
+        }
+
+        /* 卡片通用 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2.8rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 22px;
+            padding: 2rem 1.8rem 2.2rem;
+            border: 1px solid #e2e8ec;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            transition: all 0.15s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+            border-color: #d0d9df;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            font-weight: 450;
+            margin-bottom: 0.75rem;
+            color: #1f3140;
+            letter-spacing: -0.01em;
+        }
+
+        .card p, .card li {
+            font-size: 0.98rem;
+            color: #3e5566;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card ul li {
+            padding: 0.2rem 0;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .card ul li::before {
+            content: "·";
+            position: absolute;
+            left: 0.1rem;
+            color: #7b95aa;
+            font-weight: 600;
+        }
+
+        .feature-list {
+            margin-top: 0.5rem;
+        }
+
+        /* 说明区 + FAQ混合 */
+        .section-block {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 2.2rem 2.4rem 2.6rem;
+            margin-bottom: 2.8rem;
+            border: 1px solid #e2e8ec;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+
+        .section-block h2 {
+            font-size: 1.7rem;
+            font-weight: 450;
+            margin-bottom: 1.2rem;
+            color: #1b2a36;
+            border-bottom: 1px solid #e7edf2;
+            padding-bottom: 0.5rem;
+        }
+
+        .faq-item {
+            margin: 1.2rem 0;
+        }
+
+        .faq-item strong {
+            display: block;
+            font-weight: 500;
+            color: #1f3140;
+            margin-bottom: 0.2rem;
+        }
+
+        .faq-item p {
+            color: #405a6b;
+            margin: 0.2rem 0 0.5rem 0;
+        }
+
+        .faq-summary {
+            font-size: 0.95rem;
+            border-left: 3px solid #cbd7e0;
+            padding-left: 1rem;
+            margin: 1.4rem 0 0.2rem;
+        }
+
+        .btn-muted {
+            display: inline-block;
+            background: transparent;
+            border: 1px solid #cbd7e0;
+            border-radius: 40px;
+            padding: 0.4rem 1.4rem;
+            font-size: 0.9rem;
+            color: #2d485c;
+            text-decoration: none;
+            transition: 0.15s;
+            margin: 0.4rem 0 0 0;
+        }
+
+        .btn-muted:hover {
+            background: #eef3f7;
+            border-color: #b0c1cf;
+        }
+
+        .link-sentence {
+            background: #ffffff;
+            border-radius: 80px;
+            padding: 0.6rem 1.8rem;
+            display: inline-block;
+            border: 1px solid #dce3e9;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+            font-size: 0.95rem;
+            color: #2c485c;
+        }
+
+        .link-sentence a {
+            color: #1a6b8a;
+            text-decoration: none;
+            font-weight: 450;
+            border-bottom: 1px dotted #b0cbd9;
+        }
+
+        .link-sentence a:hover {
+            color: #0f4d66;
+            border-bottom: 1px solid #1a6b8a;
+        }
+
+        .bottom-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem 2rem;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            border-radius: 80px;
+            padding: 0.9rem 2rem;
+            border: 1px solid #e2e8ec;
+            margin-top: 0.8rem;
+        }
+
+        .bottom-links a {
+            color: #2d4d62;
+            text-decoration: none;
+            font-size: 0.95rem;
+            border-bottom: 1px solid transparent;
+            transition: 0.1s;
+        }
+
+        .bottom-links a:hover {
+            border-bottom: 1px solid #8aa5b9;
+        }
+
+        .footer-note {
+            margin-top: 2.8rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #6b8296;
+            border-top: 1px solid #dce3ea;
+            padding-top: 1.8rem;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 1.2rem 0.8rem; }
+            .hero { padding: 2rem 1.5rem; }
+            .hero h1 { font-size: 2rem; }
+            .section-block { padding: 1.6rem 1.2rem; }
+            .bottom-links { flex-direction: column; align-items: flex-start; gap: 0.6rem; padding: 1rem 1.5rem; border-radius: 28px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- hero -->
+    <div class="hero">
+        <div class="tagline">稳定入口 · 页面说明</div>
+        <h1>ufc 的定位与使用思路</h1>
+        <p>一个不需要频繁解释的入口，恰好就在你需要的地方。我们围绕 ufc 整理了资源、参考和常见问题，帮助你在安静的环境下找到合适的起点。</p>
+    </div>
+
+    <!-- 优势卡片区（3张） -->
+    <div class="card-grid">
+        <div class="card">
+            <h3>简洁的路径</h3>
+            <p>没有多层跳转和冗余导航，页面结构清晰，从任何设备打开都能快速定位到核心内容。适合日常查阅与回顾。</p>
+        </div>
+        <div class="card">
+            <h3>场景覆盖</h3>
+            <ul class="feature-list">
+                <li>日常信息查阅与备忘</li>
+                <li>技术文档的快速入口</li>
+                <li>跨设备保持一致体验</li>
+                <li>低干扰、低广告的浏览环境</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>克制与可靠</h3>
+            <p>界面元素经过筛选，不堆砌功能。每个链接、每段说明都有明确用途。页面响应及时，没有复杂依赖。</p>
+        </div>
+    </div>
+
+    <!-- 说明区 + FAQ 摘要混合 -->
+    <div class="section-block">
+        <h2>页面说明与常见疑问</h2>
+        <p style="margin-bottom:1.2rem; color:#3e5566;">
+            这个页面不是门户，更像一张索引卡。我们整理了与 ufc 相关的基础信息、访问方式和一些用户经常提到的细节。以下摘要可以帮你快速了解。
+        </p>
+
+        <div class="faq-item">
+            <strong>▎ ufc 主要涵盖哪些内容？</strong>
+            <p>网站围绕稳定入口、技术参考和资源归集展开，内容偏向实用与叙述。更新频率不高，但每次调整都会考虑阅读节奏。</p>
+        </div>
+
+        <div class="faq-item">
+            <strong>▎ 页面中提到的「ufc」具体指什么？</strong>
+            <p>它代表这个站点的标识与访问锚点。你可以直接通过 <span class="link-sentence"><a href="https://ssl-ufc.com">ufc</a></span> 到达对应资源区，无需经过中间页。</p>
+        </div>
+
+        <div class="faq-item">
+            <strong>▎ 移动端和桌面端体验有区别吗？</strong>
+            <p>没有功能上的区别。排版和间距会根据屏幕尺寸自适应，但所有链接、卡片和说明内容完全一致。</p>
+        </div>
+
+        <div class="faq-summary">
+            以上是 FAQ 的简要版本。更多细节可在页面底部链接中找到。
+        </div>
+    </div>
+
+    <!-- 混合叙述 + 链接嵌入 -->
+    <div style="background: #ffffff; border-radius: 24px; padding: 1.6rem 2.2rem; border: 1px solid #e2e8ec; margin-bottom: 2.2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+        <p style="margin-bottom: 0.6rem; color:#2f4a5c;">
+            如果你之前通过其他方式访问过，可能会注意到这个版本的目录结构更轻了。我们保留了稳定的入口，并用卡片代替了长篇列表。
+        </p>
+        <p style="margin-bottom: 0.6rem; color:#2f4a5c;">
+            站点名称中的 <a href="https://ssl-ufc.com" style="color:#1a6b8a; text-decoration: none; border-bottom: 1px dotted #aac2d2;">ufc</a> 既是一个标识，也代表这个页面希望提供的体验：不过度装饰，但保留必要的指引。
+        </p>
+        <p style="color:#405a6b;">
+            无论你是第一次打开，还是偶尔回来查看，这里都保持一样的结构和节奏。
+        </p>
+    </div>
+
+    <!-- 底部链接区 -->
+    <div class="bottom-links">
+        <span style="color:#2d4d62; font-weight: 400;">关联页面</span>
+        <a href="https://ssl-ufc.com">ufc</a>
+        <a href="#">归档说明</a>
+        <a href="#">版本记录</a>
+        <a href="#">反馈</a>
+        <span style="color:#6b8296; font-size:0.85rem;">· 入口稳定</span>
+    </div>
+
+    <div class="footer-note">
+        页面内容基于实际结构编写 · 更新于最近一次调整
+    </div>
+</div>
+</body>
+</html>
